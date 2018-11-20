@@ -2,7 +2,7 @@ import assert from 'assert';
 import {parseBinaryExpressionDispatcher, parseVariabledeclaration, parseVariableDeclerator,
     parseAssignmentExpression, parseSequenceExpression, parseWhileStatement,
     parseIfOrElseStatementDispatcher, parseIfStatement, parseReturnStatement,
-    parseCode, parseProgram, parseFunction, parseGeneral, // parseBinaryExpression_ArrayExpression,
+    parseCode, parseProgram, parseFunction, parseGeneral,
     parseBinaryExpression_ExpressionStatement, parseBinaryExpression_Identifier,
     parseBinaryExpression_Literal, parseBinaryExpression_MemberExpression,
     parseBinaryExpression_UnaryExpression, parseExpressionStatement, parseBlockStatement,
@@ -12,9 +12,6 @@ describe('Unit Testing - parseBinaryExpressionDispatcher', () => {
     //Calculations
     it('Literal - \'1\'', () => {testParseBinaryExpression('{"type":"ExpressionStatement","expression":{"type":"Literal","value":1,"raw":"1"}}','1');});
     it('Literal - \'-1\'', () => {testParseBinaryExpression('{"type":"ExpressionStatement","expression":{"type":"Literal","value":1,"raw":"1"}}','1');});
-    // it('Literal - \'[]\'', () => {testParseBinaryExpression('{"type":"ArrayExpression","elements":[],"loc":{"start":{"line":1,"column":0},"end":{"line":1,"column":2}}}','[]');});
-    // it('Literal - \'[1]\'', () => {testParseBinaryExpression('{"type":"ArrayExpression","elements":[{"type":"Literal","value":1,"raw":"1","loc":{"start":{"line":1,"column":1},"end":{"line":1,"column":2}}}],"loc":{"start":{"line":1,"column":0},"end":{"line":1,"column":3}}}','[1]');});
-    // it('Literal - \'[-1,s,true]\'', () => {testParseBinaryExpression('{"type":"ArrayExpression","elements":[{"type":"UnaryExpression","operator":"-","argument":{"type":"Literal","value":1,"raw":"1","loc":{"start":{"line":1,"column":2},"end":{"line":1,"column":3}}},"prefix":true,"loc":{"start":{"line":1,"column":1},"end":{"line":1,"column":3}}},{"type":"Literal","value":"s","raw":"\'s\'","loc":{"start":{"line":1,"column":4},"end":{"line":1,"column":7}}},{"type":"Literal","value":true,"raw":"true","loc":{"start":{"line":1,"column":8},"end":{"line":1,"column":12}}}],"loc":{"start":{"line":1,"column":0},"end":{"line":1,"column":13}}}','[-1,s,true]');});
     it('MemberExpression - \'v[2]\'', () => {testParseBinaryExpression('{"type":"MemberExpression","computed":true,"object":{"type":"Identifier","name":"v","loc":{"start":{"line":9,"column":17},"end":{"line":9,"column":18}}},"property":{"type":"Literal","value":2,"raw":"1","loc":{"start":{"line":9,"column":19},"end":{"line":9,"column":20}}},"loc":{"start":{"line":9,"column":17},"end":{"line":9,"column":21}}}','v[2]');});
     it('BinaryExpression between Literals - \'1+2\'', () => {testParseBinaryExpression('{"type":"BinaryExpression","operator":"+","left":{"type":"Literal","value":1,"raw":"1"},"right":{"type":"Literal","value":2,"raw":"2"}}','1+2');});
     it('BinaryExpression between MemberExpressions - \'array1[2]+array2[2]\'', () => {testParseBinaryExpression('{"type":"BinaryExpression","operator":"+","left":{"type":"MemberExpression","computed":true,"object":{"type":"Identifier","name":"array1"},"property":{"type":"Literal","value":2,"raw":"2"}},"right":{"type":"MemberExpression","computed":true,"object":{"type":"Identifier","name":"array2"},"property":{"type":"Literal","value":2,"raw":"2"}}}','array1[2]+array2[2]');});
@@ -39,7 +36,6 @@ describe('Unit Testing - parseBinaryExpressionDispatcher', () => {
     it('BinaryExpression between MemberExpression and Identifiers - \'v[2]<m\'', () => {testParseBinaryExpression('{"type":"BinaryExpression","operator":"<","left":{"type":"MemberExpression","computed":true,"object":{"type":"Identifier","name":"v"},"property":{"type":"Literal","value":2,"raw":"2"}},"right":{"type":"Identifier","name":"m"}}','v[2]<m');});
 });
 describe('Unit Testing - parseVariableDeclerator', () => {
-    //Calculations
     let expected1 = [new myParsedExpression(1,'VariableDeclarator','low',null,null)];
     it('Single un-initialized - \'let low;\'', () => {testParseVariableDeclerator('{"type":"VariableDeclarator","id":{"type":"Identifier","name":"low","loc":{"start":{"line":1,"column":4},"end":{"line":1,"column":7}}},"init":null,"loc":{"start":{"line":1,"column":4},"end":{"line":1,"column":9}}}',expected1);});
     let expected2 = [new myParsedExpression(1,'VariableDeclarator','low',null,0)];
@@ -49,7 +45,6 @@ describe('Unit Testing - parseVariableDeclerator', () => {
 });
 
 describe('Unit Testing - parseVariabledeclarator', () => {
-    //Calculations
     let expected1 = [new myParsedExpression(1,'VariableDeclarator','low',null,null)];
     it('Single un-initialized - \'let low;\'', () => {testParseVariabledeclaration('{"type":"VariableDeclaration","declarations":[{"type":"VariableDeclarator","id":{"type":"Identifier","name":"low","loc":{"start":{"line":1,"column":4},"end":{"line":1,"column":7}}},"init":null,"loc":{"start":{"line":1,"column":4},"end":{"line":1,"column":7}}}],"kind":"let","loc":{"start":{"line":1,"column":0},"end":{"line":1,"column":8}}}',expected1);});
     let expected2 = [new myParsedExpression(1,'VariableDeclarator','low',null,0)];
@@ -83,7 +78,6 @@ describe('Unit Testing - parseExpressionStatement', () => {
 });
 
 describe('Unit Testing - parseVariabledeclaration', () => {
-    //Calculations
     let expected1 = [new myParsedExpression(1,'VariableDeclarator','low',null,null)];
     it('Single un-initialized - \'let low;\'', () => {testParseVariabledeclaration('{"type":"VariableDeclaration","declarations":[{"type":"VariableDeclarator","id":{"type":"Identifier","name":"low","loc":{"start":{"line":1,"column":4},"end":{"line":1,"column":7}}},"init":null,"loc":{"start":{"line":1,"column":4},"end":{"line":1,"column":7}}}],"kind":"let","loc":{"start":{"line":1,"column":0},"end":{"line":1,"column":8}}}',expected1);});
     let expected2 = [new myParsedExpression(1,'VariableDeclarator','low',null,0)];
@@ -102,7 +96,6 @@ describe('Unit Testing - parseVariabledeclaration', () => {
 
 
 describe('Unit Testing - parseAssignmentExpression', () => {
-    //Calculations
     let expected1 = [new myParsedExpression(1,'AssignmentExpression','low',null,0)];
     it('Single assigned Literals - \'low = 0;\'', () => {testParseAssignmentExpression('{"type":"AssignmentExpression","operator":"=","left":{"type":"Identifier","name":"low","loc":{"start":{"line":1,"column":0},"end":{"line":1,"column":3}}},"right":{"type":"Literal","value":0,"raw":"0","loc":{"start":{"line":1,"column":6},"end":{"line":1,"column":7}}},"loc":{"start":{"line":1,"column":0},"end":{"line":1,"column":7}}}',expected1);});
     let expected2 = [new myParsedExpression(1,'AssignmentExpression','low',null,-1)];
@@ -118,7 +111,6 @@ describe('Unit Testing - parseAssignmentExpression', () => {
 });
 
 describe('Unit Testing - parseSequenceExpression', () => {
-    //Calculations
     let expected1 = [new myParsedExpression(1,'AssignmentExpression','low',null,0), new myParsedExpression(1,'AssignmentExpression','high',null,-1)];
     it('Several assigned Literals - \'low = 0, high = -1;\'', () => {testParseSequenceExpressionn('{"type":"SequenceExpression","expressions":[{"type":"AssignmentExpression","operator":"=","left":{"type":"Identifier","name":"low","loc":{"start":{"line":1,"column":0},"end":{"line":1,"column":3}}},"right":{"type":"Literal","value":0,"raw":"0","loc":{"start":{"line":1,"column":6},"end":{"line":1,"column":7}}},"loc":{"start":{"line":1,"column":0},"end":{"line":1,"column":7}}},{"type":"AssignmentExpression","operator":"=","left":{"type":"Identifier","name":"high","loc":{"start":{"line":1,"column":9},"end":{"line":1,"column":13}}},"right":{"type":"UnaryExpression","operator":"-","argument":{"type":"Literal","value":1,"raw":"1","loc":{"start":{"line":1,"column":17},"end":{"line":1,"column":18}}},"prefix":true,"loc":{"start":{"line":1,"column":16},"end":{"line":1,"column":18}}},"loc":{"start":{"line":1,"column":9},"end":{"line":1,"column":18}}}],"loc":{"start":{"line":1,"column":0},"end":{"line":1,"column":18}}}',expected1);});
     let expected2 = [];
@@ -130,7 +122,6 @@ describe('Unit Testing - parseSequenceExpression', () => {
 });
 
 describe('Unit Testing - parseWhileExpression', () => {
-    //Calculations
     let expected1 = [new myParsedExpression(1,'WhileStatement',null,'1<2',null)];
     it('- \'while (1<2) {}\'', () => {testParseWhileStatement('{"type":"WhileStatement","test":{"type":"BinaryExpression","operator":"<","left":{"type":"Literal","value":1,"raw":"1","loc":{"start":{"line":1,"column":7},"end":{"line":1,"column":8}}},"right":{"type":"Literal","value":2,"raw":"2","loc":{"start":{"line":1,"column":9},"end":{"line":1,"column":10}}},"loc":{"start":{"line":1,"column":7},"end":{"line":1,"column":10}}},"body":{"type":"BlockStatement","body":[],"loc":{"start":{"line":1,"column":12},"end":{"line":1,"column":14}}},"loc":{"start":{"line":1,"column":0},"end":{"line":1,"column":14}}}',expected1);});
     let expected2 = [new myParsedExpression(1,'WhileStatement',null,'1<2',null), new myParsedExpression(1,'VariableDeclarator','low',null,null)];
@@ -154,7 +145,6 @@ describe('Unit Testing - parseIfStatement', () => {
 });
 
 describe('Unit Testing - parseIfOrElseStatementDispatcher', () => {
-    //Calculations
     let expected1 = [new myParsedExpression(2,'IfStatement',null,'1<2',null), new myParsedExpression(3,'VariableDeclarator','low',null,null)];
     it('- \'if (1<2) { let low;}\'', () => {testParseIfOrElseStatementDispatcher('{"type":"IfStatement","test":{"type":"BinaryExpression","operator":"<","left":{"type":"Literal","value":1,"raw":"1","loc":{"start":{"line":2,"column":8},"end":{"line":2,"column":9}}},"right":{"type":"Literal","value":2,"raw":"2","loc":{"start":{"line":2,"column":10},"end":{"line":2,"column":11}}},"loc":{"start":{"line":2,"column":8},"end":{"line":2,"column":11}}},"consequent":{"type":"BlockStatement","body":[{"type":"VariableDeclaration","declarations":[{"type":"VariableDeclarator","id":{"type":"Identifier","name":"low","loc":{"start":{"line":3,"column":9},"end":{"line":3,"column":12}}},"init":null,"loc":{"start":{"line":3,"column":9},"end":{"line":3,"column":12}}}],"kind":"let","loc":{"start":{"line":3,"column":5},"end":{"line":3,"column":13}}}],"loc":{"start":{"line":2,"column":14},"end":{"line":4,"column":5}}},"alternate":null,"loc":{"start":{"line":2,"column":4},"end":{"line":4,"column":5}}}',expected1);});
     let expected2 = [];
@@ -164,7 +154,6 @@ describe('Unit Testing - parseIfOrElseStatementDispatcher', () => {
 });
 
 describe('Unit Testing - parseReturnStatement', () => {
-    //Calculations
     let expected1 = [new myParsedExpression(2,'ReturnStatement',null,null,'1')];
     it('- \'return 1;\'', () => {testParseReturnStatement('{"type":"ReturnStatement","argument":{"type":"Literal","value":1,"raw":"1","loc":{"start":{"line":2,"column":7},"end":{"line":2,"column":8}}},"loc":{"start":{"line":2,"column":0},"end":{"line":2,"column":9}}}',expected1);});
     let expected2 = [];
@@ -176,7 +165,6 @@ describe('Unit Testing - parseReturnStatement', () => {
 });
 
 describe('Unit Testing - parseGeneral', () => {
-    //Calculations
     let expected1 = [new myParsedExpression(2,'ReturnStatement',null,null,'1')];
     it('- \'return 1;\'', () => {testParseGeneral('{"type":"ReturnStatement","argument":{"type":"Literal","value":1,"raw":"1","loc":{"start":{"line":2,"column":7},"end":{"line":2,"column":8}}},"loc":{"start":{"line":2,"column":0},"end":{"line":2,"column":9}}}',expected1);});
     let expected2 = [];
@@ -194,7 +182,6 @@ describe('Unit Testing - parseGeneral', () => {
 });
 
 describe('Unit Testing - parseFunction', () => {
-    //Calculations
     let expected1 = [new myParsedExpression(1,'FunctionDeclaration','f',null,null)];
     it('- \'function f() {}\'', () => {testParseFunction('{"type":"FunctionDeclaration","id":{"type":"Identifier","name":"f","loc":{"start":{"line":1,"column":9},"end":{"line":1,"column":10}}},"params":[],"body":{"type":"BlockStatement","body":[],"loc":{"start":{"line":1,"column":13},"end":{"line":1,"column":15}}},"generator":false,"expression":false,"async":false,"loc":{"start":{"line":1,"column":0},"end":{"line":1,"column":15}}}',expected1);});
     let expected2 = [new myParsedExpression(1,'FunctionDeclaration','p',null,null), new myParsedExpression(1,'VariableDeclaration','x',null,null), new myParsedExpression(1,'VariableDeclaration','y',null,null)];
@@ -211,7 +198,6 @@ describe('Unit Testing - parseFunction', () => {
 });
 
 describe('Unit Testing - parseProgram', () => {
-    //Calculations
     let expected1 = [new myParsedExpression(1,'FunctionDeclaration','p',null,null)];
     it('- \'function f() {}\'', () => {testParseProgram('{"type":"Program","body":[{"type":"FunctionDeclaration","id":{"type":"Identifier","name":"p","loc":{"start":{"line":1,"column":9},"end":{"line":1,"column":10}}},"params":[],"body":{"type":"BlockStatement","body":[],"loc":{"start":{"line":1,"column":13},"end":{"line":1,"column":15}}},"generator":false,"expression":false,"async":false,"loc":{"start":{"line":1,"column":0},"end":{"line":1,"column":15}}}],"sourceType":"script","loc":{"start":{"line":1,"column":0},"end":{"line":1,"column":15}}}',expected1);});
     let expected2 = [];
@@ -223,37 +209,31 @@ describe('Unit Testing - parseProgram', () => {
 });
 
 describe('Unit Testing - parseCode', () => {
-    //Calculations
     let expected1 = [new myParsedExpression(1,'FunctionDeclaration','p',null,null)];
     it('- \'function f() {}\'', () => {testParseProgram('{"type":"Program","body":[{"type":"FunctionDeclaration","id":{"type":"Identifier","name":"p","loc":{"start":{"line":1,"column":9},"end":{"line":1,"column":10}}},"params":[],"body":{"type":"BlockStatement","body":[],"loc":{"start":{"line":1,"column":13},"end":{"line":1,"column":15}}},"generator":false,"expression":false,"async":false,"loc":{"start":{"line":1,"column":0},"end":{"line":1,"column":15}}}],"sourceType":"script","loc":{"start":{"line":1,"column":0},"end":{"line":1,"column":15}}}',expected1);});
 });
 
 describe('Unit Testing - parseBinaryExpression_ExpressionStatement', () => {
-    //Calculations
     let expected1 = '1';
     it('- \'1\'', () => {testParseparseBinaryExpression_ExpressionStatement('{"type":"ExpressionStatement","expression":{"name":"n","value":"1","raw":1}}\n',expected1);});
 });
 
 describe('Unit Testing - parseBinaryExpression_Literal', () => {
-    //Calculations
     let expected1 = '1';
     it('- \'1\'', () => {testParseparseBinaryExpression_Literal('{"type":"Literal","value":1,"raw":"1","loc":{"start":{"line":1,"column":0},"end":{"line":1,"column":1}}}',expected1);});
 });
 
 describe('Unit Testing - parseBinaryExpression_UnaryExpression', () => {
-    //Calculations
     let expected1 = '-1';
     it('- \'-1\'', () => {testParseBinaryExpression_UnaryExpression('{"type":"UnaryExpression","operator":"-","argument":{"type":"Literal","value":1,"raw":"1","loc":{"start":{"line":1,"column":1},"end":{"line":1,"column":2}}},"prefix":true,"loc":{"start":{"line":1,"column":0},"end":{"line":1,"column":2}}}',expected1);});
 });
 
 describe('Unit Testing - parseBinaryExpression_Identifier', () => {
-    //Calculations
     let expected1 = 'n';
     it('- \'n\'', () => {testParseparseBinaryExpression_Identifier('{"type":"Identifier","name":"n","loc":{"start":{"line":1,"column":0},"end":{"line":1,"column":1}}}',expected1);});
 });
 
 describe('Unit Testing - parseBinaryExpression_MemberExpression', () => {
-    //Calculations
     let expected1 = 'v[1]';
     it('- \'v[1]\'', () => {testParseBinaryExpression_MemberExpression('{"type":"MemberExpression","computed":true,"object":{"type":"Identifier","name":"v","loc":{"start":{"line":1,"column":0},"end":{"line":1,"column":1}}},"property":{"type":"Literal","value":1,"raw":"1","loc":{"start":{"line":1,"column":2},"end":{"line":1,"column":3}}},"loc":{"start":{"line":1,"column":0},"end":{"line":1,"column":4}}}',expected1);});
 });
@@ -283,7 +263,6 @@ describe('The javascript parser', () => {
 });
 
 describe('Unit Testing - myParsedExpression', () => {
-    //Calculations
     let expected1 = new myParsedExpression(1,'FunctionDeclaration','p',null,null);
     it('- \'1\'', () => {assert.deepEqual(new myParsedExpression(1,'FunctionDeclaration','p',null,null),expected1);});
 });

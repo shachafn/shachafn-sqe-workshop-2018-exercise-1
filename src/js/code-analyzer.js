@@ -1,14 +1,10 @@
-
 import * as esp from 'esprima';
 
 import {Literal, BlockStatement,
-    ExpressionStatement, Identifier, IfStatement, ReturnStatement, VariableDeclaration, WhileStatement, //ArrayExpression
+    ExpressionStatement, Identifier, IfStatement, ReturnStatement, VariableDeclaration, WhileStatement,
     MemberExpression, BinaryExpression, UnaryExpression, SequenceExpression
     , AssignmentExpression} from './Literals';
 
-// Not imported:
-// ArrayPattern, AssignmentPattern, BindingPattern,DoWhileStatement ForInStatement, ForOfStatement, ForStatement,
-// FunctionDeclaration, FunctionDeclaration, RestElement, SwitchStatement
 
 class myParsedExpression {
     constructor(Line, Type, Name, Condition, Value) {
@@ -58,6 +54,11 @@ function parseFunction(parsedFunction, myParsedExpressions) {
     });
 }
 
+/**
+ * @Summary This function parses general expressions (function code)
+ * @param exp
+ * @param myParsedExpressions
+ */
 function parseGeneral(exp, myParsedExpressions) {
     if (exp == null || exp === undefined)
         return;
@@ -168,6 +169,7 @@ function parseBinaryExpression_MemberExpression(parsedBinaryExpression, value) {
     parseBinaryExpressionDispatcher(parsedBinaryExpression.property,value);
     value.push(']');
 }
+// Possible support of arrays
 /*
 function parseBinaryExpression_ArrayExpression(parsedBinaryExpression, value) {
     value.push('[');
@@ -184,7 +186,7 @@ function parseBinaryExpression_ArrayExpression(parsedBinaryExpression, value) {
 */
 
 /**
- * @Summary the function receives a BinaryExpression, and returns an array of strings representing it.
+ * @Summary the function receives an expression, and returns an array of strings representing it.
  * @param parsedBinaryExpression - The BinaryExpression
  * @param value - The array of strings to contain the result
  */
@@ -195,7 +197,7 @@ function parseBinaryExpressionDispatcher(parsedBinaryExpression, value) {
     let typeToHandlerMapping = [];
     typeToHandlerMapping [ExpressionStatement] = parseBinaryExpression_ExpressionStatement; typeToHandlerMapping [Literal] = parseBinaryExpression_Literal;
     typeToHandlerMapping [UnaryExpression] = parseBinaryExpression_UnaryExpression;typeToHandlerMapping [Identifier] = parseBinaryExpression_Identifier;
-    typeToHandlerMapping [MemberExpression] = parseBinaryExpression_MemberExpression;//typeToHandlerMapping [ArrayExpression] = parseBinaryExpression_ArrayExpression;
+    typeToHandlerMapping [MemberExpression] = parseBinaryExpression_MemberExpression;
 
     let func = typeToHandlerMapping [parsedBinaryExpression.type];
     if (func!=null && func!==undefined)
@@ -294,9 +296,9 @@ function parseReturnStatement(parsedReturnStatement, myParsedExpressions) {
 }
 
 export {parseCode, parseProgram};
-export  {myParsedExpression, parseBinaryExpressionDispatcher, parseVariabledeclaration, parseVariableDeclerator,//parseBinaryExpression_ArrayExpression
+export  {parseBinaryExpressionDispatcher, parseVariabledeclaration, parseVariableDeclerator,
     parseAssignmentExpression, parseSequenceExpression, parseWhileStatement, parseIfOrElseStatementDispatcher,
     parseReturnStatement, parseIfStatement, parseGeneral, parseFunction, parseBinaryExpression_ExpressionStatement,
     parseBinaryExpression_Literal, parseBinaryExpression_UnaryExpression, parseBinaryExpression_Identifier,
-    parseBinaryExpression_MemberExpression, parseExpressionStatement, parseBlockStatement};
+    parseBinaryExpression_MemberExpression, parseExpressionStatement, parseBlockStatement, myParsedExpression};
 
