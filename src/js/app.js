@@ -11,12 +11,18 @@ $(document).ready(function () {
         let myParsedExpressions = [];
         parseProgram(syntaxTree, myParsedExpressions);
 
-        UpdateTable(myParsedExpressions);
+        PopulateTable(myParsedExpressions);
     });
 });
 
-function UpdateTable(myParsedExpressions)
+function ClearTable() {
+    let table = document.getElementById('data table');
+    table.innerHTML = '';
+}
+
+function PopulateTable(myParsedExpressions)
 {
+    ClearTable();
     myParsedExpressions.forEach(function (myParsedExpression) {
         AddRow(myParsedExpression);
     });

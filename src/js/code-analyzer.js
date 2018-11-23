@@ -20,6 +20,9 @@ const parseCode = (codeToParse, useLocation) => {
     return esp.parseScript(codeToParse, { loc:useLocation });
 };
 
+
+let parsedExpressions = [];
+
 /**
  * @Summary This function populates 'mySyntaxTree' with 'myParsedExpression' objects,
  *           According to the exercise_1's specifications.
@@ -34,6 +37,17 @@ function parseProgram(parsedProgram, myParsedExpressions) {
     // Assuming program only contains functions for now.
     parsedProgram.body.forEach(function (func) {
         parseFunction(func,myParsedExpressions);
+    });
+
+    //Clear
+    while (parsedExpressions.length >0)
+        parsedExpressions.pop();
+
+    //Populate
+    myParsedExpressions.forEach(function (exp) {
+        parsedExpressions.push(new myParsedExpression(
+            exp.Line, exp.Type, exp.Name, exp.Condition, exp.Value
+        ));
     });
 }
 
