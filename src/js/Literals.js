@@ -12,8 +12,8 @@ const Literal = 'Literal';
 const MemberExpression = 'MemberExpression';
 const BinaryExpression = 'BinaryExpression';
 const UnaryExpression = 'UnaryExpression';
-
+const ForStatement = 'ForStatement';
 
 export { ExpressionStatement, Literal, BlockStatement, Identifier, IfStatement, ReturnStatement,
     VariableDeclaration, WhileStatement, MemberExpression, BinaryExpression,
-    UnaryExpression, SequenceExpression, AssignmentExpression};
+    UnaryExpression, SequenceExpression, AssignmentExpression, ForStatement};

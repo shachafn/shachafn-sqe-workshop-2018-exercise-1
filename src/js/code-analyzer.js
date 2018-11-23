@@ -3,7 +3,7 @@ import * as esp from 'esprima';
 import {Literal, BlockStatement,
     ExpressionStatement, Identifier, IfStatement, ReturnStatement, VariableDeclaration, WhileStatement,
     MemberExpression, BinaryExpression, UnaryExpression, SequenceExpression
-    , AssignmentExpression} from './Literals';
+    , AssignmentExpression, ForStatement} from './Literals';
 
 
 class myParsedExpression {
@@ -28,7 +28,7 @@ const parseCode = (codeToParse, useLocation) => {
  * @param myParsedExpressions
  */
 function parseProgram(parsedProgram, myParsedExpressions) {
-    if (parsedProgram == null || parsedProgram === undefined)
+    if (parsedProgram == null)
         return;
 
     // Assuming program only contains functions for now.
@@ -38,7 +38,7 @@ function parseProgram(parsedProgram, myParsedExpressions) {
 }
 
 function parseFunction(parsedFunction, myParsedExpressions) {
-    if (parsedFunction == null || parsedFunction === undefined )
+    if (parsedFunction == null)
         return;
 
     // Append the function
@@ -60,7 +60,7 @@ function parseFunction(parsedFunction, myParsedExpressions) {
  * @param myParsedExpressions
  */
 function parseGeneral(exp, myParsedExpressions) {
-    if (exp == null || exp === undefined)
+    if (exp == null )
         return;
     let typeToHandlerMapping = [];
     typeToHandlerMapping[VariableDeclaration] = parseVariabledeclaration;
@@ -71,16 +71,17 @@ function parseGeneral(exp, myParsedExpressions) {
     typeToHandlerMapping[SequenceExpression] = parseSequenceExpression;
     typeToHandlerMapping[AssignmentExpression] = parseAssignmentExpression;
     typeToHandlerMapping[BlockStatement] = parseBlockStatement;
+    typeToHandlerMapping[ForStatement] = parseForStatement;
 
     let func = typeToHandlerMapping [exp.type];
-    if (!(func != null && func !== undefined)) {
+    if (!(func != null )) {
         return;
     }
     func.call(this, exp, myParsedExpressions);
 }
 
 function parseSequenceExpression(sequenceExpression, myParsedExpressions) {
-    if (sequenceExpression == null || sequenceExpression === undefined)
+    if (sequenceExpression == null )
         return;
 
     sequenceExpression.expressions.forEach(function (exp) {
@@ -89,7 +90,7 @@ function parseSequenceExpression(sequenceExpression, myParsedExpressions) {
 }
 
 function parseVariabledeclaration(parsedVariabledeclaration, myParsedExpressions) {
-    if (parsedVariabledeclaration == null || parsedVariabledeclaration === undefined)
+    if (parsedVariabledeclaration == null )
         return;
 
     // A Variabledeclaration contains numerous VariableDeclerators (e.g "let x,y")
@@ -100,7 +101,7 @@ function parseVariabledeclaration(parsedVariabledeclaration, myParsedExpressions
 
 
 function parseVariableDeclerator(parsedVariableDeclerator, myParsedExpressions) {
-    if (parsedVariableDeclerator == null || parsedVariableDeclerator === undefined)
+    if (parsedVariableDeclerator == null )
         return;
 
     if (parsedVariableDeclerator.init == null) {
@@ -121,7 +122,7 @@ function parseVariableDeclerator(parsedVariableDeclerator, myParsedExpressions) 
 
 
 function parseExpressionStatement(parsedExpressionStatement, myParsedExpressions) {
-    if (parsedExpressionStatement == null || parsedExpressionStatement === undefined)
+    if (parsedExpressionStatement == null )
         return;
 
     switch (parsedExpressionStatement.expression.type) {
@@ -135,7 +136,7 @@ function parseExpressionStatement(parsedExpressionStatement, myParsedExpressions
 }
 
 function parseAssignmentExpression(parsedAssignmentExpression, myParsedExpressions) {
-    if (parsedAssignmentExpression == null || parsedAssignmentExpression === undefined)
+    if (parsedAssignmentExpression == null )
         return;
 
     let valueArray = [];
@@ -191,7 +192,7 @@ function parseBinaryExpression_ArrayExpression(parsedBinaryExpression, value) {
  * @param value - The array of strings to contain the result
  */
 function parseBinaryExpressionDispatcher(parsedBinaryExpression, value) {
-    if (parsedBinaryExpression == null || parsedBinaryExpression === undefined)
+    if (parsedBinaryExpression == null)
         return;
 
     let typeToHandlerMapping = [];
@@ -200,7 +201,7 @@ function parseBinaryExpressionDispatcher(parsedBinaryExpression, value) {
     typeToHandlerMapping [MemberExpression] = parseBinaryExpression_MemberExpression;
 
     let func = typeToHandlerMapping [parsedBinaryExpression.type];
-    if (func!=null && func!==undefined)
+    if (func!=null )
         func.call(this, parsedBinaryExpression,value);
 
     handleBinaryExpression(parsedBinaryExpression, value);
@@ -216,7 +217,7 @@ function handleBinaryExpression(parsedBinaryExpression, value) {
 }
 
 function parseWhileStatement(parsedWhileStatement, myParsedExpressions) {
-    if (parsedWhileStatement == null || parsedWhileStatement === undefined)
+    if (parsedWhileStatement == null )
         return;
 
     // Parse WhileStatement
@@ -243,7 +244,7 @@ function parseWhileStatement(parsedWhileStatement, myParsedExpressions) {
  * @param myParsedExpressions
  */
 function parseIfOrElseStatementDispatcher(parsedStatement, myParsedExpressions) {
-    if (parsedStatement == null || parsedStatement === undefined)
+    if (parsedStatement == null )
         return;
 
     let typeToHandlerMapping = [];
@@ -251,7 +252,7 @@ function parseIfOrElseStatementDispatcher(parsedStatement, myParsedExpressions) 
     typeToHandlerMapping [BlockStatement] = parseBlockStatement;
 
     let func = typeToHandlerMapping [parsedStatement.type];
-    if (func!=null && func!==undefined)
+    if (func!=null)
         func.call(this, parsedStatement,myParsedExpressions);
     else
         parseGeneral(parsedStatement,myParsedExpressions);
@@ -271,14 +272,14 @@ function parseIfStatement(parsedStatement, myParsedExpressions) {
 }
 
 function parseBlockStatement (parsedStatement, myParsedExpressions) {
-    if (parsedStatement == null || parsedStatement === undefined)
+    if (parsedStatement == null )
         return;
 
     parsedStatement.body.forEach(function (exp) {parseGeneral(exp,myParsedExpressions);});
 }
 
 function parseReturnStatement(parsedReturnStatement, myParsedExpressions) {
-    if (parsedReturnStatement == null || parsedReturnStatement === undefined)
+    if (parsedReturnStatement == null )
         return;
 
     // Parse WhileStatement
@@ -294,11 +295,29 @@ function parseReturnStatement(parsedReturnStatement, myParsedExpressions) {
         value)
     );
 }
+function parseForStatement(parsedForStatement, myParsedExpressions) {
+    if (parsedForStatement == null )
+        return;
+
+    let valueArray = [];
+    parseBinaryExpressionDispatcher(parsedForStatement.test, valueArray);
+    let value = valueArray.join('');
+
+    myParsedExpressions.push(new myParsedExpression(parsedForStatement.loc.start.line, parsedForStatement.type, null, value, null));
+
+    parseAssignmentExpression(parsedForStatement.init, myParsedExpressions);
+    parseAssignmentExpression(parsedForStatement.update,myParsedExpressions);
+
+    if (parsedForStatement.body.type === BlockStatement)
+        parsedForStatement.body.body.forEach(function (exp) {parseGeneral(exp,myParsedExpressions);});
+    else
+        parseGeneral(parsedForStatement.body,myParsedExpressions);
+}
 
 export {parseCode, parseProgram};
 export  {parseBinaryExpressionDispatcher, parseVariabledeclaration, parseVariableDeclerator,
     parseAssignmentExpression, parseSequenceExpression, parseWhileStatement, parseIfOrElseStatementDispatcher,
     parseReturnStatement, parseIfStatement, parseGeneral, parseFunction, parseBinaryExpression_ExpressionStatement,
     parseBinaryExpression_Literal, parseBinaryExpression_UnaryExpression, parseBinaryExpression_Identifier,
-    parseBinaryExpression_MemberExpression, parseExpressionStatement, parseBlockStatement, myParsedExpression};
-
+    parseBinaryExpression_MemberExpression, parseExpressionStatement, parseBlockStatement, parseForStatement,
+    myParsedExpression};

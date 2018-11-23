@@ -6,6 +6,7 @@ import {parseBinaryExpressionDispatcher, parseVariabledeclaration, parseVariable
     parseBinaryExpression_ExpressionStatement, parseBinaryExpression_Identifier,
     parseBinaryExpression_Literal, parseBinaryExpression_MemberExpression,
     parseBinaryExpression_UnaryExpression, parseExpressionStatement, parseBlockStatement,
+    parseForStatement,
     myParsedExpression} from '../src/js/code-analyzer';
 
 describe('Unit Testing - parseBinaryExpressionDispatcher', () => {
@@ -37,22 +38,22 @@ describe('Unit Testing - parseBinaryExpressionDispatcher', () => {
 });
 describe('Unit Testing - parseVariableDeclerator', () => {
     let expected1 = [new myParsedExpression(1,'VariableDeclarator','low',null,null)];
-    it('Single un-initialized - \'let low;\'', () => {testParseVariableDeclerator('{"type":"VariableDeclarator","id":{"type":"Identifier","name":"low","loc":{"start":{"line":1,"column":4},"end":{"line":1,"column":7}}},"init":null,"loc":{"start":{"line":1,"column":4},"end":{"line":1,"column":9}}}',expected1);});
+    it('Single un-initialized - \'let low;\'', () => {testDeepEqual(parseVariableDeclerator,'{"type":"VariableDeclarator","id":{"type":"Identifier","name":"low","loc":{"start":{"line":1,"column":4},"end":{"line":1,"column":7}}},"init":null,"loc":{"start":{"line":1,"column":4},"end":{"line":1,"column":9}}}',expected1);});
     let expected2 = [new myParsedExpression(1,'VariableDeclarator','low',null,0)];
-    it('Single initialized - \'let low=0;\'', () => {testParseVariableDeclerator('{"type":"VariableDeclarator","id":{"type":"Identifier","name":"low","loc":{"start":{"line":1,"column":4},"end":{"line":1,"column":7}}},"init":{"type":"Literal","value":0,"raw":"0","loc":{"start":{"line":1,"column":8},"end":{"line":1,"column":9}}},"loc":{"start":{"line":1,"column":4},"end":{"line":1,"column":9}}}',expected2);});
+    it('Single initialized - \'let low=0;\'', () => {testDeepEqual(parseVariableDeclerator,'{"type":"VariableDeclarator","id":{"type":"Identifier","name":"low","loc":{"start":{"line":1,"column":4},"end":{"line":1,"column":7}}},"init":{"type":"Literal","value":0,"raw":"0","loc":{"start":{"line":1,"column":8},"end":{"line":1,"column":9}}},"loc":{"start":{"line":1,"column":4},"end":{"line":1,"column":9}}}',expected2);});
     let expected3 = [new myParsedExpression(1,'VariableDeclarator','low',null,-1)];
-    it('Single initialized - \'let low=-1;\'', () => {testParseVariableDeclerator('{"type":"VariableDeclarator","id":{"type":"Identifier","name":"low","loc":{"start":{"line":1,"column":4},"end":{"line":1,"column":7}}},"init":{"type":"UnaryExpression","operator":"-","argument":{"type":"Literal","value":1,"raw":"1","loc":{"start":{"line":1,"column":9},"end":{"line":1,"column":10}}},"prefix":true,"loc":{"start":{"line":1,"column":8},"end":{"line":1,"column":10}}},"loc":{"start":{"line":1,"column":4},"end":{"line":1,"column":10}}}',expected3);});
+    it('Single initialized - \'let low=-1;\'', () => {testDeepEqual(parseVariableDeclerator,'{"type":"VariableDeclarator","id":{"type":"Identifier","name":"low","loc":{"start":{"line":1,"column":4},"end":{"line":1,"column":7}}},"init":{"type":"UnaryExpression","operator":"-","argument":{"type":"Literal","value":1,"raw":"1","loc":{"start":{"line":1,"column":9},"end":{"line":1,"column":10}}},"prefix":true,"loc":{"start":{"line":1,"column":8},"end":{"line":1,"column":10}}},"loc":{"start":{"line":1,"column":4},"end":{"line":1,"column":10}}}',expected3);});
 });
 
 describe('Unit Testing - parseVariabledeclarator', () => {
     let expected1 = [new myParsedExpression(1,'VariableDeclarator','low',null,null)];
-    it('Single un-initialized - \'let low;\'', () => {testParseVariabledeclaration('{"type":"VariableDeclaration","declarations":[{"type":"VariableDeclarator","id":{"type":"Identifier","name":"low","loc":{"start":{"line":1,"column":4},"end":{"line":1,"column":7}}},"init":null,"loc":{"start":{"line":1,"column":4},"end":{"line":1,"column":7}}}],"kind":"let","loc":{"start":{"line":1,"column":0},"end":{"line":1,"column":8}}}',expected1);});
+    it('Single un-initialized - \'let low;\'', () => {testDeepEqual(parseVariabledeclaration, '{"type":"VariableDeclaration","declarations":[{"type":"VariableDeclarator","id":{"type":"Identifier","name":"low","loc":{"start":{"line":1,"column":4},"end":{"line":1,"column":7}}},"init":null,"loc":{"start":{"line":1,"column":4},"end":{"line":1,"column":7}}}],"kind":"let","loc":{"start":{"line":1,"column":0},"end":{"line":1,"column":8}}}',expected1);});
     let expected2 = [new myParsedExpression(1,'VariableDeclarator','low',null,0)];
-    it('Single initialized - \'let low=0;\'', () => {testParseVariabledeclaration('{"type":"VariableDeclaration","declarations":[{"type":"VariableDeclarator","id":{"type":"Identifier","name":"low","loc":{"start":{"line":1,"column":4},"end":{"line":1,"column":7}}},"init":{"type":"Literal","value":0,"raw":"0","loc":{"start":{"line":1,"column":8},"end":{"line":1,"column":9}}},"loc":{"start":{"line":1,"column":4},"end":{"line":1,"column":9}}}],"kind":"let","loc":{"start":{"line":1,"column":0},"end":{"line":1,"column":10}}}',expected2);});
+    it('Single initialized - \'let low=0;\'', () => {testDeepEqual(parseVariabledeclaration,'{"type":"VariableDeclaration","declarations":[{"type":"VariableDeclarator","id":{"type":"Identifier","name":"low","loc":{"start":{"line":1,"column":4},"end":{"line":1,"column":7}}},"init":{"type":"Literal","value":0,"raw":"0","loc":{"start":{"line":1,"column":8},"end":{"line":1,"column":9}}},"loc":{"start":{"line":1,"column":4},"end":{"line":1,"column":9}}}],"kind":"let","loc":{"start":{"line":1,"column":0},"end":{"line":1,"column":10}}}',expected2);});
     let expected3 = [new myParsedExpression(1,'VariableDeclarator','low',null,-1)];
-    it('Single initialized - \'let low=-1;\'', () => {testParseVariabledeclaration('{"type":"VariableDeclaration","declarations":[{"type":"VariableDeclarator","id":{"type":"Identifier","name":"low","loc":{"start":{"line":1,"column":4},"end":{"line":1,"column":7}}},"init":{"type":"UnaryExpression","operator":"-","argument":{"type":"Literal","value":1,"raw":"1","loc":{"start":{"line":1,"column":9},"end":{"line":1,"column":10}}},"prefix":true,"loc":{"start":{"line":1,"column":8},"end":{"line":1,"column":10}}},"loc":{"start":{"line":1,"column":4},"end":{"line":1,"column":10}}}],"kind":"let","loc":{"start":{"line":1,"column":0},"end":{"line":1,"column":11}}}',expected3);});
+    it('Single initialized - \'let low=-1;\'', () => {testDeepEqual(parseVariabledeclaration,'{"type":"VariableDeclaration","declarations":[{"type":"VariableDeclarator","id":{"type":"Identifier","name":"low","loc":{"start":{"line":1,"column":4},"end":{"line":1,"column":7}}},"init":{"type":"UnaryExpression","operator":"-","argument":{"type":"Literal","value":1,"raw":"1","loc":{"start":{"line":1,"column":9},"end":{"line":1,"column":10}}},"prefix":true,"loc":{"start":{"line":1,"column":8},"end":{"line":1,"column":10}}},"loc":{"start":{"line":1,"column":4},"end":{"line":1,"column":10}}}],"kind":"let","loc":{"start":{"line":1,"column":0},"end":{"line":1,"column":11}}}',expected3);});
     let expected4 = [new myParsedExpression(1,'VariableDeclarator','low',null,0), new myParsedExpression(1,'VariableDeclarator','high',null,-1)];
-    it('Single initialized - \'let low = 0,high= -1;\'', () => {testParseVariabledeclaration('{"type":"VariableDeclaration","declarations":[{"type":"VariableDeclarator","id":{"type":"Identifier","name":"low","loc":{"start":{"line":1,"column":4},"end":{"line":1,"column":7}}},"init":{"type":"Literal","value":0,"raw":"0","loc":{"start":{"line":1,"column":10},"end":{"line":1,"column":11}}},"loc":{"start":{"line":1,"column":4},"end":{"line":1,"column":11}}},{"type":"VariableDeclarator","id":{"type":"Identifier","name":"high","loc":{"start":{"line":1,"column":12},"end":{"line":1,"column":16}}},"init":{"type":"UnaryExpression","operator":"-","argument":{"type":"Literal","value":1,"raw":"1","loc":{"start":{"line":1,"column":19},"end":{"line":1,"column":20}}},"prefix":true,"loc":{"start":{"line":1,"column":18},"end":{"line":1,"column":20}}},"loc":{"start":{"line":1,"column":12},"end":{"line":1,"column":20}}}],"kind":"let","loc":{"start":{"line":1,"column":0},"end":{"line":1,"column":21}}}',expected4);});
+    it('Single initialized - \'let low = 0,high= -1;\'', () => {testDeepEqual(parseVariabledeclaration,'{"type":"VariableDeclaration","declarations":[{"type":"VariableDeclarator","id":{"type":"Identifier","name":"low","loc":{"start":{"line":1,"column":4},"end":{"line":1,"column":7}}},"init":{"type":"Literal","value":0,"raw":"0","loc":{"start":{"line":1,"column":10},"end":{"line":1,"column":11}}},"loc":{"start":{"line":1,"column":4},"end":{"line":1,"column":11}}},{"type":"VariableDeclarator","id":{"type":"Identifier","name":"high","loc":{"start":{"line":1,"column":12},"end":{"line":1,"column":16}}},"init":{"type":"UnaryExpression","operator":"-","argument":{"type":"Literal","value":1,"raw":"1","loc":{"start":{"line":1,"column":19},"end":{"line":1,"column":20}}},"prefix":true,"loc":{"start":{"line":1,"column":18},"end":{"line":1,"column":20}}},"loc":{"start":{"line":1,"column":12},"end":{"line":1,"column":20}}}],"kind":"let","loc":{"start":{"line":1,"column":0},"end":{"line":1,"column":21}}}',expected4);});
     let expected5 = [];
     it('- null', () => {
         let value = [];
@@ -69,7 +70,7 @@ describe('Unit Testing - parseExpressionStatement', () => {
         parseExpressionStatement(null, value);
         assert.deepEqual(value,expected1);
     });
-    let expected2 = [new myParsedExpression(2,'AssignmentExpression','igh',null,1)];;
+    let expected2 = [new myParsedExpression(2,'AssignmentExpression','igh',null,1)];
     it('real', () => {
         let value = [];
         parseExpressionStatement(JSON.parse('{"type":"ExpressionStatement","expression":{"type":"AssignmentExpression","operator":"=","left":{"type":"Identifier","name":"igh","loc":{"start":{"line":2,"column":2},"end":{"line":2,"column":5}}},"right":{"type":"Literal","value":1,"raw":"1","loc":{"start":{"line":2,"column":8},"end":{"line":2,"column":9}}},"loc":{"start":{"line":2,"column":2},"end":{"line":2,"column":9}}},"loc":{"start":{"line":2,"column":1},"end":{"line":2,"column":11}}}'), value);
@@ -79,13 +80,13 @@ describe('Unit Testing - parseExpressionStatement', () => {
 
 describe('Unit Testing - parseVariabledeclaration', () => {
     let expected1 = [new myParsedExpression(1,'VariableDeclarator','low',null,null)];
-    it('Single un-initialized - \'let low;\'', () => {testParseVariabledeclaration('{"type":"VariableDeclaration","declarations":[{"type":"VariableDeclarator","id":{"type":"Identifier","name":"low","loc":{"start":{"line":1,"column":4},"end":{"line":1,"column":7}}},"init":null,"loc":{"start":{"line":1,"column":4},"end":{"line":1,"column":7}}}],"kind":"let","loc":{"start":{"line":1,"column":0},"end":{"line":1,"column":8}}}',expected1);});
+    it('Single un-initialized - \'let low;\'', () => {testDeepEqual(parseVariabledeclaration,'{"type":"VariableDeclaration","declarations":[{"type":"VariableDeclarator","id":{"type":"Identifier","name":"low","loc":{"start":{"line":1,"column":4},"end":{"line":1,"column":7}}},"init":null,"loc":{"start":{"line":1,"column":4},"end":{"line":1,"column":7}}}],"kind":"let","loc":{"start":{"line":1,"column":0},"end":{"line":1,"column":8}}}',expected1);});
     let expected2 = [new myParsedExpression(1,'VariableDeclarator','low',null,0)];
-    it('Single initialized - \'let low=0;\'', () => {testParseVariabledeclaration('{"type":"VariableDeclaration","declarations":[{"type":"VariableDeclarator","id":{"type":"Identifier","name":"low","loc":{"start":{"line":1,"column":4},"end":{"line":1,"column":7}}},"init":{"type":"Literal","value":0,"raw":"0","loc":{"start":{"line":1,"column":8},"end":{"line":1,"column":9}}},"loc":{"start":{"line":1,"column":4},"end":{"line":1,"column":9}}}],"kind":"let","loc":{"start":{"line":1,"column":0},"end":{"line":1,"column":10}}}',expected2);});
+    it('Single initialized - \'let low=0;\'', () => {testDeepEqual(parseVariabledeclaration,'{"type":"VariableDeclaration","declarations":[{"type":"VariableDeclarator","id":{"type":"Identifier","name":"low","loc":{"start":{"line":1,"column":4},"end":{"line":1,"column":7}}},"init":{"type":"Literal","value":0,"raw":"0","loc":{"start":{"line":1,"column":8},"end":{"line":1,"column":9}}},"loc":{"start":{"line":1,"column":4},"end":{"line":1,"column":9}}}],"kind":"let","loc":{"start":{"line":1,"column":0},"end":{"line":1,"column":10}}}',expected2);});
     let expected3 = [new myParsedExpression(1,'VariableDeclarator','low',null,-1)];
-    it('Single initialized - \'let low=-1;\'', () => {testParseVariabledeclaration('{"type":"VariableDeclaration","declarations":[{"type":"VariableDeclarator","id":{"type":"Identifier","name":"low","loc":{"start":{"line":1,"column":4},"end":{"line":1,"column":7}}},"init":{"type":"UnaryExpression","operator":"-","argument":{"type":"Literal","value":1,"raw":"1","loc":{"start":{"line":1,"column":9},"end":{"line":1,"column":10}}},"prefix":true,"loc":{"start":{"line":1,"column":8},"end":{"line":1,"column":10}}},"loc":{"start":{"line":1,"column":4},"end":{"line":1,"column":10}}}],"kind":"let","loc":{"start":{"line":1,"column":0},"end":{"line":1,"column":11}}}',expected3);});
+    it('Single initialized - \'let low=-1;\'', () => {testDeepEqual(parseVariabledeclaration,'{"type":"VariableDeclaration","declarations":[{"type":"VariableDeclarator","id":{"type":"Identifier","name":"low","loc":{"start":{"line":1,"column":4},"end":{"line":1,"column":7}}},"init":{"type":"UnaryExpression","operator":"-","argument":{"type":"Literal","value":1,"raw":"1","loc":{"start":{"line":1,"column":9},"end":{"line":1,"column":10}}},"prefix":true,"loc":{"start":{"line":1,"column":8},"end":{"line":1,"column":10}}},"loc":{"start":{"line":1,"column":4},"end":{"line":1,"column":10}}}],"kind":"let","loc":{"start":{"line":1,"column":0},"end":{"line":1,"column":11}}}',expected3);});
     let expected4 = [new myParsedExpression(1,'VariableDeclarator','low',null,0), new myParsedExpression(1,'VariableDeclarator','high',null,-1)];
-    it('Single initialized - \'let low = 0,high= -1;\'', () => {testParseVariabledeclaration('{"type":"VariableDeclaration","declarations":[{"type":"VariableDeclarator","id":{"type":"Identifier","name":"low","loc":{"start":{"line":1,"column":4},"end":{"line":1,"column":7}}},"init":{"type":"Literal","value":0,"raw":"0","loc":{"start":{"line":1,"column":10},"end":{"line":1,"column":11}}},"loc":{"start":{"line":1,"column":4},"end":{"line":1,"column":11}}},{"type":"VariableDeclarator","id":{"type":"Identifier","name":"high","loc":{"start":{"line":1,"column":12},"end":{"line":1,"column":16}}},"init":{"type":"UnaryExpression","operator":"-","argument":{"type":"Literal","value":1,"raw":"1","loc":{"start":{"line":1,"column":19},"end":{"line":1,"column":20}}},"prefix":true,"loc":{"start":{"line":1,"column":18},"end":{"line":1,"column":20}}},"loc":{"start":{"line":1,"column":12},"end":{"line":1,"column":20}}}],"kind":"let","loc":{"start":{"line":1,"column":0},"end":{"line":1,"column":21}}}',expected4);});
+    it('Single initialized - \'let low = 0,high= -1;\'', () => {testDeepEqual(parseVariabledeclaration,'{"type":"VariableDeclaration","declarations":[{"type":"VariableDeclarator","id":{"type":"Identifier","name":"low","loc":{"start":{"line":1,"column":4},"end":{"line":1,"column":7}}},"init":{"type":"Literal","value":0,"raw":"0","loc":{"start":{"line":1,"column":10},"end":{"line":1,"column":11}}},"loc":{"start":{"line":1,"column":4},"end":{"line":1,"column":11}}},{"type":"VariableDeclarator","id":{"type":"Identifier","name":"high","loc":{"start":{"line":1,"column":12},"end":{"line":1,"column":16}}},"init":{"type":"UnaryExpression","operator":"-","argument":{"type":"Literal","value":1,"raw":"1","loc":{"start":{"line":1,"column":19},"end":{"line":1,"column":20}}},"prefix":true,"loc":{"start":{"line":1,"column":18},"end":{"line":1,"column":20}}},"loc":{"start":{"line":1,"column":12},"end":{"line":1,"column":20}}}],"kind":"let","loc":{"start":{"line":1,"column":0},"end":{"line":1,"column":21}}}',expected4);});
     let expected5 = [];
     it('- null', () => {
         let value = [];
@@ -97,11 +98,11 @@ describe('Unit Testing - parseVariabledeclaration', () => {
 
 describe('Unit Testing - parseAssignmentExpression', () => {
     let expected1 = [new myParsedExpression(1,'AssignmentExpression','low',null,0)];
-    it('Single assigned Literals - \'low = 0;\'', () => {testParseAssignmentExpression('{"type":"AssignmentExpression","operator":"=","left":{"type":"Identifier","name":"low","loc":{"start":{"line":1,"column":0},"end":{"line":1,"column":3}}},"right":{"type":"Literal","value":0,"raw":"0","loc":{"start":{"line":1,"column":6},"end":{"line":1,"column":7}}},"loc":{"start":{"line":1,"column":0},"end":{"line":1,"column":7}}}',expected1);});
+    it('Single assigned Literals - \'low = 0;\'', () => {testDeepEqual(parseAssignmentExpression,'{"type":"AssignmentExpression","operator":"=","left":{"type":"Identifier","name":"low","loc":{"start":{"line":1,"column":0},"end":{"line":1,"column":3}}},"right":{"type":"Literal","value":0,"raw":"0","loc":{"start":{"line":1,"column":6},"end":{"line":1,"column":7}}},"loc":{"start":{"line":1,"column":0},"end":{"line":1,"column":7}}}',expected1);});
     let expected2 = [new myParsedExpression(1,'AssignmentExpression','low',null,-1)];
-    it('Single assigned Literals - \'low = -1;\'', () => {testParseAssignmentExpression('{"type":"AssignmentExpression","operator":"=","left":{"type":"Identifier","name":"low","loc":{"start":{"line":1,"column":0},"end":{"line":1,"column":3}}},"right":{"type":"UnaryExpression","operator":"-","argument":{"type":"Literal","value":1,"raw":"1","loc":{"start":{"line":1,"column":7},"end":{"line":1,"column":8}}},"prefix":true,"loc":{"start":{"line":1,"column":6},"end":{"line":1,"column":8}}},"loc":{"start":{"line":1,"column":0},"end":{"line":1,"column":8}}}',expected2);});
+    it('Single assigned Literals - \'low = -1;\'', () => {testDeepEqual(parseAssignmentExpression,'{"type":"AssignmentExpression","operator":"=","left":{"type":"Identifier","name":"low","loc":{"start":{"line":1,"column":0},"end":{"line":1,"column":3}}},"right":{"type":"UnaryExpression","operator":"-","argument":{"type":"Literal","value":1,"raw":"1","loc":{"start":{"line":1,"column":7},"end":{"line":1,"column":8}}},"prefix":true,"loc":{"start":{"line":1,"column":6},"end":{"line":1,"column":8}}},"loc":{"start":{"line":1,"column":0},"end":{"line":1,"column":8}}}',expected2);});
     let expected4 = [new myParsedExpression(1,'AssignmentExpression','low',null,'array[1]')];
-    it('Single assigned member - \'low = array[1];\'', () => {testParseAssignmentExpression('{"type":"AssignmentExpression","operator":"=","left":{"type":"Identifier","name":"low","loc":{"start":{"line":1,"column":0},"end":{"line":1,"column":3}}},"right":{"type":"MemberExpression","computed":true,"object":{"type":"Identifier","name":"array","loc":{"start":{"line":1,"column":6},"end":{"line":1,"column":11}}},"property":{"type":"Literal","value":1,"raw":"1","loc":{"start":{"line":1,"column":12},"end":{"line":1,"column":13}}},"loc":{"start":{"line":1,"column":6},"end":{"line":1,"column":14}}},"loc":{"start":{"line":1,"column":0},"end":{"line":1,"column":14}}}',expected4);});
+    it('Single assigned member - \'low = array[1];\'', () => {testDeepEqual(parseAssignmentExpression,'{"type":"AssignmentExpression","operator":"=","left":{"type":"Identifier","name":"low","loc":{"start":{"line":1,"column":0},"end":{"line":1,"column":3}}},"right":{"type":"MemberExpression","computed":true,"object":{"type":"Identifier","name":"array","loc":{"start":{"line":1,"column":6},"end":{"line":1,"column":11}}},"property":{"type":"Literal","value":1,"raw":"1","loc":{"start":{"line":1,"column":12},"end":{"line":1,"column":13}}},"loc":{"start":{"line":1,"column":6},"end":{"line":1,"column":14}}},"loc":{"start":{"line":1,"column":0},"end":{"line":1,"column":14}}}',expected4);});
     let expected5 = [];
     it('- null', () => {
         let value = [];
@@ -112,7 +113,7 @@ describe('Unit Testing - parseAssignmentExpression', () => {
 
 describe('Unit Testing - parseSequenceExpression', () => {
     let expected1 = [new myParsedExpression(1,'AssignmentExpression','low',null,0), new myParsedExpression(1,'AssignmentExpression','high',null,-1)];
-    it('Several assigned Literals - \'low = 0, high = -1;\'', () => {testParseSequenceExpressionn('{"type":"SequenceExpression","expressions":[{"type":"AssignmentExpression","operator":"=","left":{"type":"Identifier","name":"low","loc":{"start":{"line":1,"column":0},"end":{"line":1,"column":3}}},"right":{"type":"Literal","value":0,"raw":"0","loc":{"start":{"line":1,"column":6},"end":{"line":1,"column":7}}},"loc":{"start":{"line":1,"column":0},"end":{"line":1,"column":7}}},{"type":"AssignmentExpression","operator":"=","left":{"type":"Identifier","name":"high","loc":{"start":{"line":1,"column":9},"end":{"line":1,"column":13}}},"right":{"type":"UnaryExpression","operator":"-","argument":{"type":"Literal","value":1,"raw":"1","loc":{"start":{"line":1,"column":17},"end":{"line":1,"column":18}}},"prefix":true,"loc":{"start":{"line":1,"column":16},"end":{"line":1,"column":18}}},"loc":{"start":{"line":1,"column":9},"end":{"line":1,"column":18}}}],"loc":{"start":{"line":1,"column":0},"end":{"line":1,"column":18}}}',expected1);});
+    it('Several assigned Literals - \'low = 0, high = -1;\'', () => {testDeepEqual(parseSequenceExpression, '{"type":"SequenceExpression","expressions":[{"type":"AssignmentExpression","operator":"=","left":{"type":"Identifier","name":"low","loc":{"start":{"line":1,"column":0},"end":{"line":1,"column":3}}},"right":{"type":"Literal","value":0,"raw":"0","loc":{"start":{"line":1,"column":6},"end":{"line":1,"column":7}}},"loc":{"start":{"line":1,"column":0},"end":{"line":1,"column":7}}},{"type":"AssignmentExpression","operator":"=","left":{"type":"Identifier","name":"high","loc":{"start":{"line":1,"column":9},"end":{"line":1,"column":13}}},"right":{"type":"UnaryExpression","operator":"-","argument":{"type":"Literal","value":1,"raw":"1","loc":{"start":{"line":1,"column":17},"end":{"line":1,"column":18}}},"prefix":true,"loc":{"start":{"line":1,"column":16},"end":{"line":1,"column":18}}},"loc":{"start":{"line":1,"column":9},"end":{"line":1,"column":18}}}],"loc":{"start":{"line":1,"column":0},"end":{"line":1,"column":18}}}',expected1);});
     let expected2 = [];
     it('- null', () => {
         let value = [];
@@ -121,11 +122,27 @@ describe('Unit Testing - parseSequenceExpression', () => {
     });
 });
 
+describe('Unit Testing - parseForStatement', () => {
+    let expected1 = [new myParsedExpression(2,'ForStatement',null,'1<2',null)];
+    it('- \'for (;1<2;) {}\'', () => {testDeepEqual(parseForStatement, '{"type":"ForStatement","init":null,"test":{"type":"BinaryExpression","operator":"<","left":{"type":"Literal","value":1,"raw":"1","loc":{"start":{"line":2,"column":10},"end":{"line":2,"column":11}}},"right":{"type":"Literal","value":2,"raw":"2","loc":{"start":{"line":2,"column":12},"end":{"line":2,"column":13}}},"loc":{"start":{"line":2,"column":10},"end":{"line":2,"column":13}}},"update":null,"body":{"type":"BlockStatement","body":[],"loc":{"start":{"line":2,"column":15},"end":{"line":2,"column":17}}},"loc":{"start":{"line":2,"column":4},"end":{"line":2,"column":17}}}',expected1);});
+    let expected2 = [];
+    it('- null', () => {
+        let value = [];
+        parseForStatement(null, value);
+        assert.deepEqual(value,expected2);
+    });
+    let expected3 = [new myParsedExpression(2,'ForStatement',null,'1<2',null), new myParsedExpression(3,'AssignmentExpression','i',null,1)];
+    it('- \'for (;1<2;) i=1;\'', () => {testDeepEqual(parseForStatement, '{"type":"ForStatement","init":null,"test":{"type":"BinaryExpression","operator":"<","left":{"type":"Literal","value":1,"raw":"1","loc":{"start":{"line":2,"column":9},"end":{"line":2,"column":10}}},"right":{"type":"Literal","value":2,"raw":"2","loc":{"start":{"line":2,"column":11},"end":{"line":2,"column":12}}},"loc":{"start":{"line":2,"column":9},"end":{"line":2,"column":12}}},"update":null,"body":{"type":"ExpressionStatement","expression":{"type":"AssignmentExpression","operator":"=","left":{"type":"Identifier","name":"i","loc":{"start":{"line":3,"column":7},"end":{"line":3,"column":8}}},"right":{"type":"Literal","value":1,"raw":"1","loc":{"start":{"line":3,"column":9},"end":{"line":3,"column":10}}},"loc":{"start":{"line":3,"column":7},"end":{"line":3,"column":10}}},"loc":{"start":{"line":3,"column":7},"end":{"line":3,"column":11}}},"loc":{"start":{"line":2,"column":4},"end":{"line":3,"column":11}}}',expected3);});
+    let expected4 = [new myParsedExpression(2,'ForStatement',null,'1<2',null), new myParsedExpression(3,'AssignmentExpression','i',null,1), new myParsedExpression(4,'AssignmentExpression','j',null,2)];
+    it('- \'for (;1<2;) i=1;\'', () => {testDeepEqual(parseForStatement, '{"type":"ForStatement","init":null,"test":{"type":"BinaryExpression","operator":"<","left":{"type":"Literal","value":1,"raw":"1","loc":{"start":{"line":2,"column":9},"end":{"line":2,"column":10}}},"right":{"type":"Literal","value":2,"raw":"2","loc":{"start":{"line":2,"column":11},"end":{"line":2,"column":12}}},"loc":{"start":{"line":2,"column":9},"end":{"line":2,"column":12}}},"update":null,"body":{"type":"BlockStatement","body":[{"type":"ExpressionStatement","expression":{"type":"AssignmentExpression","operator":"=","left":{"type":"Identifier","name":"i","loc":{"start":{"line":3,"column":8},"end":{"line":3,"column":9}}},"right":{"type":"Literal","value":1,"raw":"1","loc":{"start":{"line":3,"column":10},"end":{"line":3,"column":11}}},"loc":{"start":{"line":3,"column":8},"end":{"line":3,"column":11}}},"loc":{"start":{"line":3,"column":8},"end":{"line":3,"column":12}}},{"type":"ExpressionStatement","expression":{"type":"AssignmentExpression","operator":"=","left":{"type":"Identifier","name":"j","loc":{"start":{"line":4,"column":8},"end":{"line":4,"column":9}}},"right":{"type":"Literal","value":2,"raw":"2","loc":{"start":{"line":4,"column":10},"end":{"line":4,"column":11}}},"loc":{"start":{"line":4,"column":8},"end":{"line":4,"column":11}}},"loc":{"start":{"line":4,"column":8},"end":{"line":4,"column":12}}}],"loc":{"start":{"line":2,"column":15},"end":{"line":5,"column":5}}},"loc":{"start":{"line":2,"column":4},"end":{"line":5,"column":5}}}',expected4);});
+
+});
+
 describe('Unit Testing - parseWhileExpression', () => {
     let expected1 = [new myParsedExpression(1,'WhileStatement',null,'1<2',null)];
-    it('- \'while (1<2) {}\'', () => {testParseWhileStatement('{"type":"WhileStatement","test":{"type":"BinaryExpression","operator":"<","left":{"type":"Literal","value":1,"raw":"1","loc":{"start":{"line":1,"column":7},"end":{"line":1,"column":8}}},"right":{"type":"Literal","value":2,"raw":"2","loc":{"start":{"line":1,"column":9},"end":{"line":1,"column":10}}},"loc":{"start":{"line":1,"column":7},"end":{"line":1,"column":10}}},"body":{"type":"BlockStatement","body":[],"loc":{"start":{"line":1,"column":12},"end":{"line":1,"column":14}}},"loc":{"start":{"line":1,"column":0},"end":{"line":1,"column":14}}}',expected1);});
+    it('- \'while (1<2) {}\'', () => {testDeepEqual(parseWhileStatement, '{"type":"WhileStatement","test":{"type":"BinaryExpression","operator":"<","left":{"type":"Literal","value":1,"raw":"1","loc":{"start":{"line":1,"column":7},"end":{"line":1,"column":8}}},"right":{"type":"Literal","value":2,"raw":"2","loc":{"start":{"line":1,"column":9},"end":{"line":1,"column":10}}},"loc":{"start":{"line":1,"column":7},"end":{"line":1,"column":10}}},"body":{"type":"BlockStatement","body":[],"loc":{"start":{"line":1,"column":12},"end":{"line":1,"column":14}}},"loc":{"start":{"line":1,"column":0},"end":{"line":1,"column":14}}}',expected1);});
     let expected2 = [new myParsedExpression(1,'WhileStatement',null,'1<2',null), new myParsedExpression(1,'VariableDeclarator','low',null,null)];
-    it('- \'while (1<2) {let low;}\'', () => {testParseWhileStatement('{"type":"WhileStatement","test":{"type":"BinaryExpression","operator":"<","left":{"type":"Literal","value":1,"raw":"1","loc":{"start":{"line":1,"column":7},"end":{"line":1,"column":8}}},"right":{"type":"Literal","value":2,"raw":"2","loc":{"start":{"line":1,"column":9},"end":{"line":1,"column":10}}},"loc":{"start":{"line":1,"column":7},"end":{"line":1,"column":10}}},"body":{"type":"BlockStatement","body":[{"type":"VariableDeclaration","declarations":[{"type":"VariableDeclarator","id":{"type":"Identifier","name":"low","loc":{"start":{"line":1,"column":17},"end":{"line":1,"column":20}}},"init":null,"loc":{"start":{"line":1,"column":17},"end":{"line":1,"column":20}}}],"kind":"let","loc":{"start":{"line":1,"column":13},"end":{"line":1,"column":21}}}],"loc":{"start":{"line":1,"column":12},"end":{"line":1,"column":22}}},"loc":{"start":{"line":1,"column":0},"end":{"line":1,"column":22}}}',expected2);});
+    it('- \'while (1<2) {let low;}\'', () => {testDeepEqual(parseWhileStatement, '{"type":"WhileStatement","test":{"type":"BinaryExpression","operator":"<","left":{"type":"Literal","value":1,"raw":"1","loc":{"start":{"line":1,"column":7},"end":{"line":1,"column":8}}},"right":{"type":"Literal","value":2,"raw":"2","loc":{"start":{"line":1,"column":9},"end":{"line":1,"column":10}}},"loc":{"start":{"line":1,"column":7},"end":{"line":1,"column":10}}},"body":{"type":"BlockStatement","body":[{"type":"VariableDeclaration","declarations":[{"type":"VariableDeclarator","id":{"type":"Identifier","name":"low","loc":{"start":{"line":1,"column":17},"end":{"line":1,"column":20}}},"init":null,"loc":{"start":{"line":1,"column":17},"end":{"line":1,"column":20}}}],"kind":"let","loc":{"start":{"line":1,"column":13},"end":{"line":1,"column":21}}}],"loc":{"start":{"line":1,"column":12},"end":{"line":1,"column":22}}},"loc":{"start":{"line":1,"column":0},"end":{"line":1,"column":22}}}',expected2);});
     let expected3 = [];
     it('- null', () => {
         let value = [];
@@ -133,7 +150,11 @@ describe('Unit Testing - parseWhileExpression', () => {
         assert.deepEqual(value,expected3);
     });
     let expected4 = [new myParsedExpression(1,'WhileStatement',null,'1<2',null)];
-    it('- \'while (1<2) let low;\'', () => {testParseWhileStatement('{"type":"WhileStatement","test":{"type":"BinaryExpression","operator":"<","left":{"type":"Literal","value":1,"raw":"1","loc":{"start":{"line":1,"column":7},"end":{"line":1,"column":8}}},"right":{"type":"Literal","value":2,"raw":"2","loc":{"start":{"line":1,"column":9},"end":{"line":1,"column":10}}},"loc":{"start":{"line":1,"column":7},"end":{"line":1,"column":10}}},"body":{"type":"ExpressionStatement","expression":{"type":"Literal","value":true,"raw":"true","loc":{"start":{"line":2,"column":1},"end":{"line":2,"column":5}}},"loc":{"start":{"line":2,"column":1},"end":{"line":2,"column":6}}},"loc":{"start":{"line":1,"column":0},"end":{"line":2,"column":6}}}',expected4);});
+    it('- \'while (1<2) let low;\'', () => {testDeepEqual(parseWhileStatement, '{"type":"WhileStatement","test":{"type":"BinaryExpression","operator":"<","left":{"type":"Literal","value":1,"raw":"1","loc":{"start":{"line":1,"column":7},"end":{"line":1,"column":8}}},"right":{"type":"Literal","value":2,"raw":"2","loc":{"start":{"line":1,"column":9},"end":{"line":1,"column":10}}},"loc":{"start":{"line":1,"column":7},"end":{"line":1,"column":10}}},"body":{"type":"ExpressionStatement","expression":{"type":"Literal","value":true,"raw":"true","loc":{"start":{"line":2,"column":1},"end":{"line":2,"column":5}}},"loc":{"start":{"line":2,"column":1},"end":{"line":2,"column":6}}},"loc":{"start":{"line":1,"column":0},"end":{"line":2,"column":6}}}',expected4);});
+    let expected5 = [new myParsedExpression(2,'WhileStatement',null,'1<2',null),new myParsedExpression(3,'AssignmentExpression','i',null,1)];
+    it('- \'while (1<2) {i=1}}\'', () => {testDeepEqual(parseWhileStatement, '{"type":"WhileStatement","test":{"type":"BinaryExpression","operator":"<","left":{"type":"Literal","value":1,"raw":"1","loc":{"start":{"line":2,"column":10},"end":{"line":2,"column":11}}},"right":{"type":"Literal","value":2,"raw":"2","loc":{"start":{"line":2,"column":12},"end":{"line":2,"column":13}}},"loc":{"start":{"line":2,"column":10},"end":{"line":2,"column":13}}},"body":{"type":"BlockStatement","body":[{"type":"ExpressionStatement","expression":{"type":"AssignmentExpression","operator":"=","left":{"type":"Identifier","name":"i","loc":{"start":{"line":3,"column":8},"end":{"line":3,"column":9}}},"right":{"type":"Literal","value":1,"raw":"1","loc":{"start":{"line":3,"column":10},"end":{"line":3,"column":11}}},"loc":{"start":{"line":3,"column":8},"end":{"line":3,"column":11}}},"loc":{"start":{"line":3,"column":8},"end":{"line":3,"column":12}}}],"loc":{"start":{"line":2,"column":15},"end":{"line":4,"column":5}}},"loc":{"start":{"line":2,"column":4},"end":{"line":4,"column":5}}}',expected5);});
+    let expected6 = [new myParsedExpression(2,'WhileStatement',null,'1<2',null),new myParsedExpression(3,'AssignmentExpression','i',null,1),new myParsedExpression(4,'AssignmentExpression','j',null,2)];
+    it('- \'while (1<2) {i=1; j=2;}}\'', () => {testDeepEqual(parseWhileStatement, '{"type":"WhileStatement","test":{"type":"BinaryExpression","operator":"<","left":{"type":"Literal","value":1,"raw":"1","loc":{"start":{"line":2,"column":10},"end":{"line":2,"column":11}}},"right":{"type":"Literal","value":2,"raw":"2","loc":{"start":{"line":2,"column":12},"end":{"line":2,"column":13}}},"loc":{"start":{"line":2,"column":10},"end":{"line":2,"column":13}}},"body":{"type":"BlockStatement","body":[{"type":"ExpressionStatement","expression":{"type":"AssignmentExpression","operator":"=","left":{"type":"Identifier","name":"i","loc":{"start":{"line":3,"column":8},"end":{"line":3,"column":9}}},"right":{"type":"Literal","value":1,"raw":"1","loc":{"start":{"line":3,"column":10},"end":{"line":3,"column":11}}},"loc":{"start":{"line":3,"column":8},"end":{"line":3,"column":11}}},"loc":{"start":{"line":3,"column":8},"end":{"line":3,"column":12}}},{"type":"ExpressionStatement","expression":{"type":"AssignmentExpression","operator":"=","left":{"type":"Identifier","name":"j","loc":{"start":{"line":4,"column":8},"end":{"line":4,"column":9}}},"right":{"type":"Literal","value":2,"raw":"2","loc":{"start":{"line":4,"column":10},"end":{"line":4,"column":11}}},"loc":{"start":{"line":4,"column":8},"end":{"line":4,"column":11}}},"loc":{"start":{"line":4,"column":8},"end":{"line":4,"column":12}}}],"loc":{"start":{"line":2,"column":15},"end":{"line":5,"column":5}}},"loc":{"start":{"line":2,"column":4},"end":{"line":5,"column":5}}}',expected6);});
 
 });
 
@@ -141,21 +162,21 @@ describe('Unit Testing - parseWhileExpression', () => {
 describe('Unit Testing - parseIfStatement', () => {
     //Calculations
     let expected1 = [new myParsedExpression(2,'IfStatement',null,'1<2',null), new myParsedExpression(3,'VariableDeclarator','low',null,null)];
-    it('- \'if (1<2) { let low;}\'', () => {testParseIfStatement('{"type":"IfStatement","test":{"type":"BinaryExpression","operator":"<","left":{"type":"Literal","value":1,"raw":"1","loc":{"start":{"line":2,"column":8},"end":{"line":2,"column":9}}},"right":{"type":"Literal","value":2,"raw":"2","loc":{"start":{"line":2,"column":10},"end":{"line":2,"column":11}}},"loc":{"start":{"line":2,"column":8},"end":{"line":2,"column":11}}},"consequent":{"type":"BlockStatement","body":[{"type":"VariableDeclaration","declarations":[{"type":"VariableDeclarator","id":{"type":"Identifier","name":"low","loc":{"start":{"line":3,"column":9},"end":{"line":3,"column":12}}},"init":null,"loc":{"start":{"line":3,"column":9},"end":{"line":3,"column":12}}}],"kind":"let","loc":{"start":{"line":3,"column":5},"end":{"line":3,"column":13}}}],"loc":{"start":{"line":2,"column":14},"end":{"line":4,"column":5}}},"alternate":null,"loc":{"start":{"line":2,"column":4},"end":{"line":4,"column":5}}}',expected1);});
+    it('- \'if (1<2) { let low;}\'', () => {testDeepEqual(parseIfStatement, '{"type":"IfStatement","test":{"type":"BinaryExpression","operator":"<","left":{"type":"Literal","value":1,"raw":"1","loc":{"start":{"line":2,"column":8},"end":{"line":2,"column":9}}},"right":{"type":"Literal","value":2,"raw":"2","loc":{"start":{"line":2,"column":10},"end":{"line":2,"column":11}}},"loc":{"start":{"line":2,"column":8},"end":{"line":2,"column":11}}},"consequent":{"type":"BlockStatement","body":[{"type":"VariableDeclaration","declarations":[{"type":"VariableDeclarator","id":{"type":"Identifier","name":"low","loc":{"start":{"line":3,"column":9},"end":{"line":3,"column":12}}},"init":null,"loc":{"start":{"line":3,"column":9},"end":{"line":3,"column":12}}}],"kind":"let","loc":{"start":{"line":3,"column":5},"end":{"line":3,"column":13}}}],"loc":{"start":{"line":2,"column":14},"end":{"line":4,"column":5}}},"alternate":null,"loc":{"start":{"line":2,"column":4},"end":{"line":4,"column":5}}}',expected1);});
 });
 
 describe('Unit Testing - parseIfOrElseStatementDispatcher', () => {
     let expected1 = [new myParsedExpression(2,'IfStatement',null,'1<2',null), new myParsedExpression(3,'VariableDeclarator','low',null,null)];
-    it('- \'if (1<2) { let low;}\'', () => {testParseIfOrElseStatementDispatcher('{"type":"IfStatement","test":{"type":"BinaryExpression","operator":"<","left":{"type":"Literal","value":1,"raw":"1","loc":{"start":{"line":2,"column":8},"end":{"line":2,"column":9}}},"right":{"type":"Literal","value":2,"raw":"2","loc":{"start":{"line":2,"column":10},"end":{"line":2,"column":11}}},"loc":{"start":{"line":2,"column":8},"end":{"line":2,"column":11}}},"consequent":{"type":"BlockStatement","body":[{"type":"VariableDeclaration","declarations":[{"type":"VariableDeclarator","id":{"type":"Identifier","name":"low","loc":{"start":{"line":3,"column":9},"end":{"line":3,"column":12}}},"init":null,"loc":{"start":{"line":3,"column":9},"end":{"line":3,"column":12}}}],"kind":"let","loc":{"start":{"line":3,"column":5},"end":{"line":3,"column":13}}}],"loc":{"start":{"line":2,"column":14},"end":{"line":4,"column":5}}},"alternate":null,"loc":{"start":{"line":2,"column":4},"end":{"line":4,"column":5}}}',expected1);});
+    it('- \'if (1<2) { let low;}\'', () => {testDeepEqual(parseIfOrElseStatementDispatcher, '{"type":"IfStatement","test":{"type":"BinaryExpression","operator":"<","left":{"type":"Literal","value":1,"raw":"1","loc":{"start":{"line":2,"column":8},"end":{"line":2,"column":9}}},"right":{"type":"Literal","value":2,"raw":"2","loc":{"start":{"line":2,"column":10},"end":{"line":2,"column":11}}},"loc":{"start":{"line":2,"column":8},"end":{"line":2,"column":11}}},"consequent":{"type":"BlockStatement","body":[{"type":"VariableDeclaration","declarations":[{"type":"VariableDeclarator","id":{"type":"Identifier","name":"low","loc":{"start":{"line":3,"column":9},"end":{"line":3,"column":12}}},"init":null,"loc":{"start":{"line":3,"column":9},"end":{"line":3,"column":12}}}],"kind":"let","loc":{"start":{"line":3,"column":5},"end":{"line":3,"column":13}}}],"loc":{"start":{"line":2,"column":14},"end":{"line":4,"column":5}}},"alternate":null,"loc":{"start":{"line":2,"column":4},"end":{"line":4,"column":5}}}',expected1);});
     let expected2 = [];
-    it('- \'\'', () => {testParseIfOrElseStatementDispatcher('{"type":"Hi"}',expected2);});
+    it('- \'\'', () => {testDeepEqual(parseIfOrElseStatementDispatcher, '{"type":"Hi"}',expected2);});
     let expected3 = [new myParsedExpression(7,'IfStatement',null,'1<2',null), new myParsedExpression(8,'AssignmentExpression','low',null,5)];
-    it('- \'\'', () => {testParseIfOrElseStatementDispatcher('{"type":"IfStatement","test":{"type":"BinaryExpression","operator":"<","left":{"type":"Literal","value":1,"raw":"1","loc":{"start":{"line":7,"column":12},"end":{"line":7,"column":13}}},"right":{"type":"Literal","value":2,"raw":"2","loc":{"start":{"line":7,"column":14},"end":{"line":7,"column":15}}},"loc":{"start":{"line":7,"column":12},"end":{"line":7,"column":15}}},"consequent":{"type":"ExpressionStatement","expression":{"type":"AssignmentExpression","operator":"=","left":{"type":"Identifier","name":"low","loc":{"start":{"line":8,"column":12},"end":{"line":8,"column":15}}},"right":{"type":"Literal","value":5,"raw":"5","loc":{"start":{"line":8,"column":18},"end":{"line":8,"column":19}}},"loc":{"start":{"line":8,"column":12},"end":{"line":8,"column":19}}},"loc":{"start":{"line":8,"column":12},"end":{"line":8,"column":20}}},"alternate":null,"loc":{"start":{"line":7,"column":8},"end":{"line":8,"column":20}}}',expected3);});
+    it('- \'\'', () => {testDeepEqual(parseIfOrElseStatementDispatcher,'{"type":"IfStatement","test":{"type":"BinaryExpression","operator":"<","left":{"type":"Literal","value":1,"raw":"1","loc":{"start":{"line":7,"column":12},"end":{"line":7,"column":13}}},"right":{"type":"Literal","value":2,"raw":"2","loc":{"start":{"line":7,"column":14},"end":{"line":7,"column":15}}},"loc":{"start":{"line":7,"column":12},"end":{"line":7,"column":15}}},"consequent":{"type":"ExpressionStatement","expression":{"type":"AssignmentExpression","operator":"=","left":{"type":"Identifier","name":"low","loc":{"start":{"line":8,"column":12},"end":{"line":8,"column":15}}},"right":{"type":"Literal","value":5,"raw":"5","loc":{"start":{"line":8,"column":18},"end":{"line":8,"column":19}}},"loc":{"start":{"line":8,"column":12},"end":{"line":8,"column":19}}},"loc":{"start":{"line":8,"column":12},"end":{"line":8,"column":20}}},"alternate":null,"loc":{"start":{"line":7,"column":8},"end":{"line":8,"column":20}}}',expected3);});
 });
 
 describe('Unit Testing - parseReturnStatement', () => {
     let expected1 = [new myParsedExpression(2,'ReturnStatement',null,null,'1')];
-    it('- \'return 1;\'', () => {testParseReturnStatement('{"type":"ReturnStatement","argument":{"type":"Literal","value":1,"raw":"1","loc":{"start":{"line":2,"column":7},"end":{"line":2,"column":8}}},"loc":{"start":{"line":2,"column":0},"end":{"line":2,"column":9}}}',expected1);});
+    it('- \'return 1;\'', () => {testDeepEqual(parseReturnStatement, '{"type":"ReturnStatement","argument":{"type":"Literal","value":1,"raw":"1","loc":{"start":{"line":2,"column":7},"end":{"line":2,"column":8}}},"loc":{"start":{"line":2,"column":0},"end":{"line":2,"column":9}}}',expected1);});
     let expected2 = [];
     it('- null', () => {
         let value = [];
@@ -166,7 +187,7 @@ describe('Unit Testing - parseReturnStatement', () => {
 
 describe('Unit Testing - parseGeneral', () => {
     let expected1 = [new myParsedExpression(2,'ReturnStatement',null,null,'1')];
-    it('- \'return 1;\'', () => {testParseGeneral('{"type":"ReturnStatement","argument":{"type":"Literal","value":1,"raw":"1","loc":{"start":{"line":2,"column":7},"end":{"line":2,"column":8}}},"loc":{"start":{"line":2,"column":0},"end":{"line":2,"column":9}}}',expected1);});
+    it('- \'return 1;\'', () => {testDeepEqual(parseGeneral, '{"type":"ReturnStatement","argument":{"type":"Literal","value":1,"raw":"1","loc":{"start":{"line":2,"column":7},"end":{"line":2,"column":8}}},"loc":{"start":{"line":2,"column":0},"end":{"line":2,"column":9}}}',expected1);});
     let expected2 = [];
     it('- null', () => {
         let value = [];
@@ -183,9 +204,9 @@ describe('Unit Testing - parseGeneral', () => {
 
 describe('Unit Testing - parseFunction', () => {
     let expected1 = [new myParsedExpression(1,'FunctionDeclaration','f',null,null)];
-    it('- \'function f() {}\'', () => {testParseFunction('{"type":"FunctionDeclaration","id":{"type":"Identifier","name":"f","loc":{"start":{"line":1,"column":9},"end":{"line":1,"column":10}}},"params":[],"body":{"type":"BlockStatement","body":[],"loc":{"start":{"line":1,"column":13},"end":{"line":1,"column":15}}},"generator":false,"expression":false,"async":false,"loc":{"start":{"line":1,"column":0},"end":{"line":1,"column":15}}}',expected1);});
+    it('- \'function f() {}\'', () => {testDeepEqual(parseFunction, '{"type":"FunctionDeclaration","id":{"type":"Identifier","name":"f","loc":{"start":{"line":1,"column":9},"end":{"line":1,"column":10}}},"params":[],"body":{"type":"BlockStatement","body":[],"loc":{"start":{"line":1,"column":13},"end":{"line":1,"column":15}}},"generator":false,"expression":false,"async":false,"loc":{"start":{"line":1,"column":0},"end":{"line":1,"column":15}}}',expected1);});
     let expected2 = [new myParsedExpression(1,'FunctionDeclaration','p',null,null), new myParsedExpression(1,'VariableDeclaration','x',null,null), new myParsedExpression(1,'VariableDeclaration','y',null,null)];
-    it('- \'function p(x,y) {}\'', () => {testParseFunction('{"type":"FunctionDeclaration","id":{"type":"Identifier","name":"p","loc":{"start":{"line":1,"column":9},"end":{"line":1,"column":10}}},"params":[{"type":"Identifier","name":"x","loc":{"start":{"line":1,"column":11},"end":{"line":1,"column":12}}},{"type":"Identifier","name":"y","loc":{"start":{"line":1,"column":13},"end":{"line":1,"column":14}}}],"body":{"type":"BlockStatement","body":[],"loc":{"start":{"line":1,"column":16},"end":{"line":1,"column":18}}},"generator":false,"expression":false,"async":false,"loc":{"start":{"line":1,"column":0},"end":{"line":1,"column":18}}}',expected2);});
+    it('- \'function p(x,y) {}\'', () => {testDeepEqual(parseFunction, '{"type":"FunctionDeclaration","id":{"type":"Identifier","name":"p","loc":{"start":{"line":1,"column":9},"end":{"line":1,"column":10}}},"params":[{"type":"Identifier","name":"x","loc":{"start":{"line":1,"column":11},"end":{"line":1,"column":12}}},{"type":"Identifier","name":"y","loc":{"start":{"line":1,"column":13},"end":{"line":1,"column":14}}}],"body":{"type":"BlockStatement","body":[],"loc":{"start":{"line":1,"column":16},"end":{"line":1,"column":18}}},"generator":false,"expression":false,"async":false,"loc":{"start":{"line":1,"column":0},"end":{"line":1,"column":18}}}',expected2);});
     let expected3 = [];
     it('- null', () => {
         let value = [];
@@ -193,13 +214,13 @@ describe('Unit Testing - parseFunction', () => {
         assert.deepEqual(value,expected3);
     });
     let expected4 = [new myParsedExpression(1,'FunctionDeclaration','f',null,null), new myParsedExpression(2,'VariableDeclarator','low',null,null)];
-    it('- \'function f() {let low;}\'', () => {testParseFunction('{"type":"FunctionDeclaration","id":{"type":"Identifier","name":"f","loc":{"start":{"line":1,"column":9},"end":{"line":1,"column":10}}},"params":[],"body":{"type":"BlockStatement","body":[{"type":"VariableDeclaration","declarations":[{"type":"VariableDeclarator","id":{"type":"Identifier","name":"low","loc":{"start":{"line":2,"column":5},"end":{"line":2,"column":8}}},"init":null,"loc":{"start":{"line":2,"column":5},"end":{"line":2,"column":8}}}],"kind":"let","loc":{"start":{"line":2,"column":1},"end":{"line":2,"column":9}}}],"loc":{"start":{"line":1,"column":13},"end":{"line":3,"column":1}}},"generator":false,"expression":false,"async":false,"loc":{"start":{"line":1,"column":0},"end":{"line":3,"column":1}}}',expected4);});
+    it('- \'function f() {let low;}\'', () => {testDeepEqual(parseFunction, '{"type":"FunctionDeclaration","id":{"type":"Identifier","name":"f","loc":{"start":{"line":1,"column":9},"end":{"line":1,"column":10}}},"params":[],"body":{"type":"BlockStatement","body":[{"type":"VariableDeclaration","declarations":[{"type":"VariableDeclarator","id":{"type":"Identifier","name":"low","loc":{"start":{"line":2,"column":5},"end":{"line":2,"column":8}}},"init":null,"loc":{"start":{"line":2,"column":5},"end":{"line":2,"column":8}}}],"kind":"let","loc":{"start":{"line":2,"column":1},"end":{"line":2,"column":9}}}],"loc":{"start":{"line":1,"column":13},"end":{"line":3,"column":1}}},"generator":false,"expression":false,"async":false,"loc":{"start":{"line":1,"column":0},"end":{"line":3,"column":1}}}',expected4);});
 
 });
 
 describe('Unit Testing - parseProgram', () => {
     let expected1 = [new myParsedExpression(1,'FunctionDeclaration','p',null,null)];
-    it('- \'function f() {}\'', () => {testParseProgram('{"type":"Program","body":[{"type":"FunctionDeclaration","id":{"type":"Identifier","name":"p","loc":{"start":{"line":1,"column":9},"end":{"line":1,"column":10}}},"params":[],"body":{"type":"BlockStatement","body":[],"loc":{"start":{"line":1,"column":13},"end":{"line":1,"column":15}}},"generator":false,"expression":false,"async":false,"loc":{"start":{"line":1,"column":0},"end":{"line":1,"column":15}}}],"sourceType":"script","loc":{"start":{"line":1,"column":0},"end":{"line":1,"column":15}}}',expected1);});
+    it('- \'function f() {}\'', () => {testDeepEqual(parseProgram,'{"type":"Program","body":[{"type":"FunctionDeclaration","id":{"type":"Identifier","name":"p","loc":{"start":{"line":1,"column":9},"end":{"line":1,"column":10}}},"params":[],"body":{"type":"BlockStatement","body":[],"loc":{"start":{"line":1,"column":13},"end":{"line":1,"column":15}}},"generator":false,"expression":false,"async":false,"loc":{"start":{"line":1,"column":0},"end":{"line":1,"column":15}}}],"sourceType":"script","loc":{"start":{"line":1,"column":0},"end":{"line":1,"column":15}}}',expected1);});
     let expected2 = [];
     it('- null', () => {
         let value = [];
@@ -210,7 +231,7 @@ describe('Unit Testing - parseProgram', () => {
 
 describe('Unit Testing - parseCode', () => {
     let expected1 = [new myParsedExpression(1,'FunctionDeclaration','p',null,null)];
-    it('- \'function f() {}\'', () => {testParseProgram('{"type":"Program","body":[{"type":"FunctionDeclaration","id":{"type":"Identifier","name":"p","loc":{"start":{"line":1,"column":9},"end":{"line":1,"column":10}}},"params":[],"body":{"type":"BlockStatement","body":[],"loc":{"start":{"line":1,"column":13},"end":{"line":1,"column":15}}},"generator":false,"expression":false,"async":false,"loc":{"start":{"line":1,"column":0},"end":{"line":1,"column":15}}}],"sourceType":"script","loc":{"start":{"line":1,"column":0},"end":{"line":1,"column":15}}}',expected1);});
+    it('- \'function f() {}\'', () => {testDeepEqual(parseProgram,'{"type":"Program","body":[{"type":"FunctionDeclaration","id":{"type":"Identifier","name":"p","loc":{"start":{"line":1,"column":9},"end":{"line":1,"column":10}}},"params":[],"body":{"type":"BlockStatement","body":[],"loc":{"start":{"line":1,"column":13},"end":{"line":1,"column":15}}},"generator":false,"expression":false,"async":false,"loc":{"start":{"line":1,"column":0},"end":{"line":1,"column":15}}}],"sourceType":"script","loc":{"start":{"line":1,"column":0},"end":{"line":1,"column":15}}}',expected1);});
 });
 
 describe('Unit Testing - parseBinaryExpression_ExpressionStatement', () => {
@@ -312,104 +333,6 @@ function testParseparseBinaryExpression_ExpressionStatement(json,expectedMyParse
     assert.deepEqual(value.join(''),expectedMyParsedExpressions);
 }
 
-function testParseProgram(json,expectedMyParsedExpressions) {
-    let expression = JSON.parse(json);
-
-    let value = [];
-    parseProgram(expression, value);
-
-    assert.deepEqual(value,expectedMyParsedExpressions);
-}
-
-function testParseFunction(json,expectedMyParsedExpressions) {
-    let expression = JSON.parse(json);
-
-    let value = [];
-    parseFunction(expression, value);
-
-    assert.deepEqual(value,expectedMyParsedExpressions);
-}
-
-function testParseGeneral(json,expectedMyParsedExpressions) {
-    let expression = JSON.parse(json);
-
-    let value = [];
-    parseGeneral(expression, value);
-
-    assert.deepEqual(value,expectedMyParsedExpressions);
-}
-
-function testParseReturnStatement(json,expectedMyParsedExpressions) {
-    let expression = JSON.parse(json);
-
-    let value = [];
-    parseReturnStatement(expression, value);
-
-    assert.deepEqual(value,expectedMyParsedExpressions);
-}
-
-function testParseIfOrElseStatementDispatcher(json,expectedMyParsedExpressions) {
-    let expression = JSON.parse(json);
-
-    let value = [];
-    parseIfOrElseStatementDispatcher(expression, value);
-
-    assert.deepEqual(value,expectedMyParsedExpressions);
-}
-
-function testParseIfStatement(json,expectedMyParsedExpressions) {
-    let expression = JSON.parse(json);
-
-    let value = [];
-    parseIfStatement(expression, value);
-
-    assert.deepEqual(value,expectedMyParsedExpressions);
-}
-
-function testParseWhileStatement(json,expectedMyParsedExpressions) {
-    let expression = JSON.parse(json);
-
-    let value = [];
-    parseWhileStatement(expression, value);
-
-    assert.deepEqual(value,expectedMyParsedExpressions);
-}
-function testParseSequenceExpressionn(json,expectedMyParsedExpressions) {
-    let expression = JSON.parse(json);
-
-    let value = [];
-    parseSequenceExpression(expression, value);
-
-    assert.deepEqual(value,expectedMyParsedExpressions);
-}
-
-function testParseAssignmentExpression(json,expectedMyParsedExpressions) {
-    let expression = JSON.parse(json);
-
-    let value = [];
-    parseAssignmentExpression(expression, value);
-
-    assert.deepEqual(value,expectedMyParsedExpressions);
-}
-
-function testParseVariabledeclaration(json,expectedMyParsedExpressions) {
-    let expression = JSON.parse(json);
-
-    let value = [];
-    parseVariabledeclaration(expression, value);
-
-    assert.deepEqual(value,expectedMyParsedExpressions);
-}
-
-function testParseVariableDeclerator(json,expectedMyParsedExpressions) {
-    let expression = JSON.parse(json);
-
-    let value = [];
-    parseVariableDeclerator(expression, value);
-
-    assert.deepEqual(value,expectedMyParsedExpressions);
-}
-
 function testParseBinaryExpression(json,expected) {
     let expression = JSON.parse(json);
 
@@ -418,4 +341,13 @@ function testParseBinaryExpression(json,expected) {
 
     let actual = value.join('');
     assert.equal(actual,expected);
+}
+
+function testDeepEqual(func, json,expectedMyParsedExpressions) {
+    let expression = JSON.parse(json);
+
+    let value = [];
+    func.call(this, expression, value);
+
+    assert.deepEqual(value,expectedMyParsedExpressions);
 }
